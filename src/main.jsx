@@ -13,7 +13,7 @@ import store from './redux/Store';
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <BrowserRouter basename='/online-shopping'>
+  <BrowserRouter basename='/store-yem'>
   <Provider store={store}>
    <App />
 

@@ -43,6 +43,8 @@ export const Banner = () => {
   return (
     <div className="  ">
       <div className="container mx-auto ">
+      <h2 className="text-2xl text-gray-800 mt-2  mb-2"> Latest Products</h2>
+
         <Slider {...settings}  className=" overflow-hidden ">
           <div className="p-1">
             <div className="bg-white rounded-lg shadow-sm h-full p-1   ">
