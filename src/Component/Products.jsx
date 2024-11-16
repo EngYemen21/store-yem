@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 import Skeleton from "react-loading-skeleton";
 import { useMediaQuery } from "@react-hook/media-query";
 import { NavLink } from "react-router-dom";
-
 
 
 const Products = () => {
   const [data, setData] = useState([]);
   const [filter, setfilter] = useState(data);
   const [loading, setloading] = useState(false);
-  const [d,setD]=useState();
   const [selectedCategory, setSelectedCategory] = useState("All");
 
   const smallScreen = useMediaQuery("(max-width: 768px)");
@@ -45,6 +44,8 @@ const Products = () => {
         <Skeleton height={150}/>
         <Skeleton height={50} width={100}/>
         <Skeleton height={50} width={100} style={{ marginLeft:6 }}/>
+       
+        
    </div>
 
     </>)
@@ -58,11 +59,6 @@ const filterProduct = (cat)=>{
     const updateList = data.filter((x)=>x.category === cat);
     setfilter(updateList);
   }
-
-
-
-
-
 }
 
 const ShowSmall = () => {

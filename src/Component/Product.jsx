@@ -1,10 +1,10 @@
-import React ,{useEffect ,useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import Skeleton from "react-loading-skeleton";
-import {useDispatch} from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { addItem } from '../redux/Action';
-import { useParams } from 'react-router'
-import { NavLink } from 'react-router-dom';
-import toast, { Toaster } from 'react-hot-toast';
+import { useParams, NavLink } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 export default function Product() {
     const {id}= useParams();
@@ -49,42 +49,26 @@ export default function Product() {
         
     }
     
-    useEffect(() => {
-        const getProduct = async () => {
-            // setLoading(true);
-            try {
-                const response = await fetch(`https://fakestoreapi.in/api/products/${id}`).then(res => res.json());
-                console.log(response.product)
-                setProduct(response.product);
-            } catch (error) {
-                console.error('Error fetching product:', error);
-            }
-            // setLoading(false);
+    useEffect(()=>{
+        const getProduct =async ()=>{
+            setloading(true);
+            const response=await fetch(`https://fakestoreapi.com/products/${id}`);
+            setProduct(await response.json());
+           
+            setloading(false);
         }
         getProduct();
-    }, [id]);
+
+    },[])
     const Loading =()=>{
         return (
             <>
-             <div className="col-md-6">
-        <Skeleton height={400}/>
-        </div>
-        <div className="col-md-6" style={{lineHeight:2  }}>
-        <Skeleton height={50} width={300}/>
-        <Skeleton height={75}/>
-        <Skeleton height={25} width={150}/>
-        <Skeleton height={50}/>
-        <Skeleton height={150}/>
-        <Skeleton height={50} width={100}/>
-        <Skeleton height={50} width={100} style={{ marginLeft:6 }}/>
-       
-   </div>
-            
+                {/* Skeleton loading UI */}
             </>
         )
     }
-    const ShowProduct= ()=>{
-        
+
+    const ShowProduct = () => {
         return (
             < >
             <div className='my-4 col-md-6'>
@@ -103,9 +87,9 @@ export default function Product() {
                     $ {product.price}
                 </h3>
                 <p className='load'>{product.description}</p>
-                <button className='px-4 py-2 m-3 text-center text-black no-underline rounded-md outline-none border-1 border-blue-950 hover:bg-blue-700' onClick={()=>addProduct(product)}>Add to cart</button>
+                <button className='px-4 py-2 m-3 text-center text-black no-underline rounded-md outline-none  border-1 border-blue-950 hover:bg-blue-700' onClick={()=>addProduct(product)}>Add to cart</button>
                 <Toaster />
-                <NavLink to="/cart" className='px-4 py-2 m-3 text-center text-black no-underline border-blue-900 rounded-md outline-none border-1 hover:bg-blue-900'>go to cart</NavLink>
+                <NavLink to="/cart" className='px-4 py-2 m-3 text-center text-black no-underline border-blue-900 rounded-md outline-none  border-1 hover:bg-blue-900'>go to cart</NavLink>
             </div>
             
             
@@ -113,17 +97,14 @@ export default function Product() {
             </>
         )
     }
-  return (
 
-    <div>
-          <div className="container">
-        <div className="row">
-                {loading ? <Loading /> :<ShowProduct/> }
-               
+    return (
+        <div>
+            <div className="container">
+                <div className="row">
+                    {loading ? <Loading /> : <ShowProduct />}
                 </div>
-
-          </div>
-       
-    </div>
-  )
+            </div>
+        </div>
+    )
 }
