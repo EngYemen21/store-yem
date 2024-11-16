@@ -1,6 +1,7 @@
 {
   
-  "homepage" :"https://EngYemen21.github.io/store-yem",
+  "homepage": "https://EngYemen21.github.io/store-yem",
+  
   "name": "ecmo",
   
   "private": true,
@@ -19,13 +20,12 @@
   
     
   "preview": "vite preview",
-  "predeploy" :"npm run build",
-  "deploy" : "gh-pages -d dist" 
- 
   
- 
-
-
+    
+  "predeploy": "npm run build",
+  
+    
+  "deploy": "gh-pages -d dist"
   
   },
   
@@ -48,6 +48,9 @@
   
     
   "react-dom": "^18.2.0",
+  
+    
+  "react-hot-toast": "^2.4.1",
   
     
   "react-icons": "^4.10.1",

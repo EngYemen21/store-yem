@@ -4,6 +4,7 @@ import { useMediaQuery } from "@react-hook/media-query";
 import { NavLink } from "react-router-dom";
 
 
+
 const Products = () => {
   const [data, setData] = useState([]);
   const [filter, setfilter] = useState(data);
@@ -15,12 +16,16 @@ const Products = () => {
 
   let ComponentMounted = true;
   useEffect(() => {
+    //   const ax=axios.get("https://fakestoreapi.com/products");
     const getProducts = async () => {
       setloading(true);
-      const response = await fetch("https://fakestoreapi.com/products");
+      const response = await  fetch("https://fakestoreapi.in/api/products")
+.then(res => res.json());
+
       if (ComponentMounted) {
-        setData(await response.clone().json());
-        setfilter(await response.json());
+        setData(response.products);
+        console.log(data)
+        setfilter(response.products);
         setloading(false);
       }
     };
@@ -60,33 +65,29 @@ const filterProduct = (cat)=>{
 
 }
 
-
- const ShowSmall = () => {
-
+const ShowSmall = () => {
   return (
     <>
-    <div className=" flex flex-col justify-around my-3">
+    <div className="flex flex-col justify-around my-3 ">
   
-    <p className="text-2xl text-center font-bold mb-2">Latest Products</p>
-    <div className="flex justify-center items-center mb-1">
+    <p className="mb-2 text-2xl font-bold text-center">Latest Products</p>
+    <div className="flex items-center justify-center mb-1">
   <label htmlFor="category" className="mr-2 text-lg ">Filter by category:</label>
   <div className="relative">
     <select
-   key={Date.now()*Math.random()*22}
-    
       id="category"
       value={selectedCategory}
       onChange={(e) => filterProduct(e.target.value)}
-      className="block appearance-none w-full bg-gray-100 border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+      className="block w-full px-4 py-2 pr-8 leading-tight bg-gray-100 border border-gray-400 rounded shadow appearance-none hover:border-gray-500 focus:outline-none focus:shadow-outline"
     >
       <option key="All" value="All">All</option>
-      <option key="men" value="men's clothing">Men's Clothing</option>
-      <option key="women" value="women's clothing">Women's Clothing</option>
-      <option key="jewelry" value="jewelery">Jewelry</option>
-      <option key="electronic" value="electronics">Electronics</option>
+      <option key="tv" value="tv">tv</option>
+      <option key="audio" value="audio">audio</option>
+      <option key="appliances" value="appliances">appliances</option>
+      <option key="gaming" value="gaming">gaming</option>
     </select>
-    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-      <svg className="fill-current h-4 w-4" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+    <div className="absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 pointer-events-none">
+      <svg className="w-4 h-4 fill-current" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
         <path
           d="M14.707 7.293a1 1 0 0 0-1.414-1.414L10 9.586l-3.293-3.293a1 1 0 0 0-1.414 1.414l4 4a1 1 0 0 0 1.414 0l4-4z"
         />
@@ -100,22 +101,22 @@ const filterProduct = (cat)=>{
      
 
 
-    <div className={`flex flex-wrap justify-center`}>
+    <div className={`flex flex-wrap justify-center `}>
 
       {filter.map((product) => {
         return (
           <>
-           <div className="flex flex-row w-80 sm:w-1/2 md:w-1/3 xl:w-1/4 " key={Date.now()*Math.random()*16}>
-              <div className="m-2 sm:m-0 bg-white rounded-2xl shadow-2xl sm:shadow-2xl md:m-0" key={product.id}>
+           <div className="flex flex-row w-80 sm:w-1/2 md:w-1/3 xl:w-1/4 ">
+              <div className="m-2 bg-white shadow-2xl sm:m-0 rounded-2xl sm:shadow-2xl md:m-0" key={product.id}>
                 <img
                   src={product.image}  style={{ height:"250px" ,width:"300px" }}
-                  className=" p-2  "
+                  className="p-2 "
                   alt={product.title}
                 />
                  
-                <div className="flex flex-col " >
-                  <h5 className="text-2xl text-center hover:text-purple-950 mt-2 cursor-pointer ">{product.title.substring(0,12)}</h5>
-                  <p className="text-2xl text-center hover:text-purple-950 m-2 cursor-point">{product.price} $</p>
+                <div className="flex flex-col ">
+                  <h5 className="mt-2 text-2xl text-center cursor-pointer hover:text-purple-950 ">{product.title.substring(0,12)}</h5>
+                  <p className="m-2 text-2xl text-center hover:text-purple-950 cursor-point">{product.price} $</p>
                 
                   <NavLink to={`/Products/${product.id}`} className={` bg-violet-950 p-3 text-center text-white no-underline  hover:bg-violet-900 rounded-lg shadow-2xl`}>
                    Buy Now
@@ -131,41 +132,56 @@ const filterProduct = (cat)=>{
   );
 };
 
+
+
+
+
+
+
+
+
+
+
+
   const Showproduct = () => {
-
-
     return (
       <>
     
     <div className={`flex flex-row m-1 justify-around items-center`}>
         <p className={` text-2xl `}>Latest Products</p>
         <div className={` mb-2 m-1`}>
-          <button className="py-3  px-3 m-1  bg-violet-950  text-white border-1 hover:bg-violet-800 rounded-xl " onClick={()=>setfilter(data)}>All</button>
-          <button className="py-3 m-1 bg-white px-2  text-black hover:border-violet-900/100 rounded-xl border-1 " onClick={()=>filterProduct("men's clothing")}>
-            man's Clothing
+          <button className="px-3 py-3 m-1 text-white bg-violet-950 border-1 hover:bg-violet-800 rounded-xl " onClick={()=>setfilter(data)}>All</button>
+          <button className="px-2 py-3 m-1 text-black bg-white hover:border-violet-900/100 rounded-xl border-1 " onClick={()=>filterProduct("tv")}>
+           tv
           </button>
-          <button className="py-3 m-1 px-2 text-black  bg-white hover:border-violet-900/100 rounded-xl border-1" onClick={()=>filterProduct("women's clothing")}>
-          women's clothng
+          <button className="px-2 py-3 m-1 text-black bg-white hover:border-violet-900/100 rounded-xl border-1" onClick={()=>filterProduct("audio")}>
+          audio
           </button>
-          <button className="py-3 m-1 px-2  text-black bg-white hover:border-violet-900/100 rounded-xl border-1 " onClick={()=>filterProduct("jewelery")}>Jewelary</button>
-          <button className="py-3 m-1 px-2   text-black  bg-white hover:border-violet-900/100 rounded-xl border-1 "  onClick={()=>filterProduct("electronics")}>Electronic</button>
+          <button className="px-2 py-3 m-1 text-black bg-white hover:border-violet-900/100 rounded-xl border-1 " onClick={()=>filterProduct("appliances")}>appliances</button>
+          <button className="px-2 py-3 m-1 text-black bg-white hover:border-violet-900/100 rounded-xl border-1 "  onClick={()=>filterProduct("gaming")}>gaming</button>
         </div>
         </div>  
+
+        
+    
+
+  
         <div className={`flex flex-wrap justify-center`}>
         {filter.map((product) => {
           return (
             <>
-             <div className="m-2 sm:m-0 bg-white rounded-2xl shadow-2xl sm:shadow-2xl md:m-0 flex-grow-0 flex-shrink-0" key={product.id}>                  <img
+             {/* <div className="flex flex-row w-80 sm:w-1/2 md:w-1/3 xl:w-1/4 "> */}
+             <div className="flex-grow-0 flex-shrink-0 m-2 bg-white shadow-2xl sm:m-0 rounded-2xl sm:shadow-2xl md:m-0" key={product.id}>                  <img
                     src={product.image}  style={{ height:"250px" ,width:"300px" }}
-                    className=" p-2  "
+                    className="p-2 "
                     alt={product.title}
                   />
                    
                   <div className="flex flex-col ">
-                    <h5 className="text-2xl text-center hover:text-purple-950 mt-2 cursor-pointer ">{product.title.substring(0,12)}</h5>
-                    <p className="text-2xl text-center hover:text-purple-950 m-2 cursor-point">{product.price} $</p>
+                    <h5 className="mt-2 text-2xl text-center cursor-pointer hover:text-purple-950 ">{product.title.substring(0,12)}</h5>
+                    <p className="m-2 text-2xl text-center hover:text-purple-950 cursor-point">{product.price} $</p>
                   
-                    <NavLink to={`/Products/${product.id}`} className={` bg-violet-950 p-3 text-center text-white no-underline hover:bg-violet-900 rounded-lg shadow-2xl`}>
+                    <NavLink to={`/Products/${product.id}`} className={` bg-violet-950 p-3 text-center text-white no-underline hover:bg-violet-900 rounded-lg shadow-2xl `}>
                      Buy Now
                     </NavLink>
                   </div>
@@ -181,8 +197,10 @@ const filterProduct = (cat)=>{
  
 
   return (
-    <div className="  2xl:container 2xl:mx-auto  my-2 py-1">
-      <div className={`row justify-center`}>
+    <div className="py-1 my-2 2xl:container 2xl:mx-auto">
+      <div className={`row justify-center  `}>
+      
+      
       {loading ? <Loading /> : smallScreen ? <ShowSmall /> : <Showproduct />}
        
       </div>

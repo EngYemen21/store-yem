@@ -49,17 +49,20 @@ export default function Product() {
         
     }
     
-    useEffect(()=>{
-        const getProduct =async ()=>{
-            setloading(true);
-            const response=await fetch(`https://fakestoreapi.com/products/${id}`);
-            setProduct(await response.json());
-           
-            setloading(false);
+    useEffect(() => {
+        const getProduct = async () => {
+            // setLoading(true);
+            try {
+                const response = await fetch(`https://fakestoreapi.in/api/products/${id}`).then(res => res.json());
+                console.log(response.product)
+                setProduct(response.product);
+            } catch (error) {
+                console.error('Error fetching product:', error);
+            }
+            // setLoading(false);
         }
         getProduct();
-
-    },[])
+    }, [id]);
     const Loading =()=>{
         return (
             <>
@@ -84,25 +87,25 @@ export default function Product() {
         
         return (
             < >
-            <div className='col-md-6 my-4'>
+            <div className='my-4 col-md-6'>
                 <img src={product.image} alt={product.title}  className='h-96 w-96' />
             </div>
-            <div className='col-md-6 my-4'>
-                <h4 className='text-uppercase text-black-50 p-1'>
+            <div className='my-4 col-md-6'>
+                <h4 className='p-1 text-uppercase text-black-50'>
                     {product.category}
                 </h4>
                 <h1 className='p-1'>{product.title}</h1>
-                <p className="lead fw-bolder text-blue-500">
+                <p className="text-blue-500 lead fw-bolder">
                     Reating {product.rating && product.rating.rate }
                     <i className="fa fa-star"></i>
                 </p>
-                <h3 className="display-7 fw-bolder p-1">
+                <h3 className="p-1 display-7 fw-bolder">
                     $ {product.price}
                 </h3>
                 <p className='load'>{product.description}</p>
-                <button className=' px-4 py-2 m-3  text-black border-1 outline-none rounded-md no-underline text-center  border-blue-950  hover:bg-blue-700' onClick={()=>addProduct(product)}>Add to cart</button>
+                <button className='px-4 py-2 m-3 text-center text-black no-underline rounded-md outline-none border-1 border-blue-950 hover:bg-blue-700' onClick={()=>addProduct(product)}>Add to cart</button>
                 <Toaster />
-                <NavLink to="/cart" className=' px-4 py-2 m-3  text-black border-1 outline-none rounded-md no-underline text-center  border-blue-900  hover:bg-blue-900'>go to cart</NavLink>
+                <NavLink to="/cart" className='px-4 py-2 m-3 text-center text-black no-underline border-blue-900 rounded-md outline-none border-1 hover:bg-blue-900'>go to cart</NavLink>
             </div>
             
             

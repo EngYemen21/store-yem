@@ -31,9 +31,6 @@ const [form,setForm]=useState(initivalue);
     {   console.log(Email)
       localStorage.setItem('userType','admin');
       setUserType(localStorage.getItem('userType'));
-
-   
-      // alert('login Admin Suuccessfully');
        
       toast('login Admin Suuccessfully', {
         duration: 4000,

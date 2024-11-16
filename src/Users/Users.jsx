@@ -17,7 +17,6 @@ export const Users = () => {
   });
 
   const logout = () => {
-    // localStorage.clear();
     localStorage.removeItem('userType');
     setUserType(localStorage.removeItem('userType'));
   
