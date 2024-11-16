@@ -34,7 +34,7 @@ export default function Product() {
 
     useEffect(() => {
         const getProduct = async () => {
-            setLoading(true);
+          
             try {
                 const response = await fetch(`https://fakestoreapi.in/api/products/${id}`).then(res => res.json());
                 // const data = await response.json();
@@ -49,7 +49,7 @@ export default function Product() {
             } catch (error) {
                 console.error('Error fetching product:', error);
             }
-            setLoading(false);
+          
         }
         getProduct();
     }, [id]);
